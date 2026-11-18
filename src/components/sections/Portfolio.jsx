@@ -31,7 +31,7 @@ const PROJECTS = [
     cover: '01.jpg',
     coverRatio: 0.667,
     description: "Visual identity for vozatenta, a communication and speech service. Minimalist teal logo with a 'v' set inside a speech bubble, evoking voice and connection.",
-    images: numbered(8),
+    images: ['01.jpg', '02.jpg', '04.jpg', '05.jpg', '08.jpg'],
   },
   {
     slug: 'Solfeu Sound',
@@ -40,7 +40,7 @@ const PROJECTS = [
     cover: '01.jpg',
     coverRatio: 0.667,
     description: "Logo for Solfeu Sound, a platform merging music and neuroscience. The symbol integrates the shape of a brain with a location pin, playing on the dual concept of mind and sound.",
-    images: numbered(8),
+    images: ['01.jpg', '02.jpg', '04.jpg', '05.jpg', '08.jpg'],
   },
   {
     slug: 'dolcim',
@@ -67,7 +67,7 @@ const PROJECTS = [
     cover: '01.jpg',
     coverRatio: 0.611,
     description: "Visual identity for 180, a restaurant brand. A continuous-line monogram in a navy and red palette, applied to neon signage, tableware, napkins, and takeaway bags.",
-    images: numbered(13),
+    images: numbered(6),
   },
   {
     slug: 'Temporada Alta',

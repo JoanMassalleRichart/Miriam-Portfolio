@@ -1,5 +1,17 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Typed from 'typed.js'
+
+const SLIDE_INTERVAL = 5000
+
+const HERO_IMAGES = [
+  'hero-bg.jpg',
+  'projects/180/06.jpg',
+  'projects/dolcim/07.jpg',
+  'projects/Solfeu Sound/01.jpg',
+  'projects/Arcadia/07.jpg',
+  'projects/Fukuruku/01.jpg',
+  'projects/vozatenta/08.jpg',
+]
 
 const SOCIAL_LINKS = [
   {
@@ -21,6 +33,17 @@ const SOCIAL_LINKS = [
 
 export default function Hero() {
   const typedRef = useRef(null)
+  const [activeSlide, setActiveSlide] = useState(0)
+  const previousSlide = (activeSlide - 1 + HERO_IMAGES.length) % HERO_IMAGES.length
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const timer = setInterval(
+      () => setActiveSlide((i) => (i + 1) % HERO_IMAGES.length),
+      SLIDE_INTERVAL,
+    )
+    return () => clearInterval(timer)
+  }, [])
 
   useEffect(() => {
     const typed = new Typed(typedRef.current, {
@@ -35,12 +58,23 @@ export default function Hero() {
 
   return (
     <section id="hero" className="hero section light-background">
-      <img src={`${import.meta.env.BASE_URL}assets/img/hero-bg.jpg`} alt="Hero background" />
+      <div className="hero-slides" aria-hidden="true">
+        {HERO_IMAGES.map((file, i) => (
+          <img
+            key={file}
+            src={`${import.meta.env.BASE_URL}assets/img/${encodeURI(file)}`}
+            className={i === activeSlide ? 'is-active' : i === previousSlide ? 'is-previous' : ''}
+            alt=""
+          />
+        ))}
+      </div>
 
       <div className="container" data-aos="zoom-out">
         <div className="row justify-content-center">
           <div className="col-lg-9">
-            <h1 className="brand-title">mimontra.</h1>
+            <h1 className="brand-title">
+              <img src={`${import.meta.env.BASE_URL}assets/img/logo-mimontra.svg`} alt="mimontra" />
+            </h1>
             <h2>Miriam Belmonte</h2>
             <p>
               <span ref={typedRef} />

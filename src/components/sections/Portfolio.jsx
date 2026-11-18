@@ -5,12 +5,16 @@ const BASE = import.meta.env.BASE_URL
 const img = (slug, file) =>
   `${BASE}assets/img/projects/${encodeURIComponent(slug)}/${encodeURIComponent(file)}`
 
+// Helper: list of sequentially named images (01.jpg, 02.jpg, ...)
+const numbered = (count) =>
+  Array.from({ length: count }, (_, i) => `${String(i + 1).padStart(2, '0')}.jpg`)
+
 const FILTERS = [
   { key: '*',          label: 'All' },
   { key: 'branding',   label: 'Branding' },
   { key: 'packaging',  label: 'Packaging' },
   { key: 'editorial',  label: 'Editorial' },
-  { key: 'tipografia', label: 'Typography' },
+  { key: 'tipografia', label: 'Typography', hidden: true },
 ]
 
 const PROJECTS = [
@@ -19,38 +23,55 @@ const PROJECTS = [
     slug: 'Fukuruku',
     title: 'Fukuruku',
     category: 'branding',
-    cover: 'flyer.jpg',
+    cover: '01.jpg',
     description: "Full visual identity for Fukuruku, a mental health and self-reflection platform. The logotype combines modular typographic shapes and a violet palette, with communication pieces such as a newsletter that reinforce its wellness mission.",
-    images: ['flyer.jpg', 'logo.jpg', 'icona.jpg'],
+    images: numbered(10),
   },
   {
     slug: 'dolcim',
     title: 'dolcim.',
     category: 'branding',
-    cover: 'logo.jpg',
+    cover: '01.jpg',
     description: "Visual identity for dolcim., an artisan patisserie brand. Logo in salmon pink with contemporary serif typography that conveys sweetness, warmth, and craftsmanship.",
-    images: ['logo.jpg'],
+    images: numbered(8),
   },
   {
     slug: 'Solfeu Sound',
     title: 'Solfeu Sound',
     category: 'branding',
-    cover: 'logo.jpg',
+    cover: '01.jpg',
     description: "Logo for Solfeu Sound, a platform merging music and neuroscience. The symbol integrates the shape of a brain with a location pin, playing on the dual concept of mind and sound.",
-    images: ['logo.jpg'],
+    images: numbered(8),
   },
   {
     slug: 'vozatenta',
     title: 'vozatenta',
     category: 'branding',
-    cover: 'logo.jpg',
+    cover: '01.jpg',
     description: "Visual identity for vozatenta, a communication and speech service. Minimalist teal logo with a 'v' set inside a speech bubble, evoking voice and connection.",
-    images: ['logo.jpg'],
+    images: numbered(8),
+  },
+  {
+    slug: '180',
+    title: '180',
+    category: 'branding',
+    cover: '01.jpg',
+    description: "Visual identity for 180, a restaurant brand. A continuous-line monogram in a navy and red palette, applied to neon signage, tableware, napkins, and takeaway bags.",
+    images: numbered(13),
+  },
+  {
+    slug: 'Temporada Alta',
+    title: 'Temporada Alta',
+    category: 'branding',
+    cover: '01.jpg',
+    description: "Rebranding of Temporada Alta, a theatre, circus, and dance festival, developed as a final project. Condensed typography, halftone photography, and a bold red palette run through posters, the programme, street banners, merchandise, accreditations, the website, and social media.",
+    images: numbered(30),
   },
   {
     slug: 'Memento',
     title: 'Memento Design',
     category: 'branding',
+    hidden: true,
     cover: 'targetes.jpg',
     description: "Design of my own identity as a graphic designer. Presentation cards with a letterpress finish in teal and white, combining typographic elegance with tactile texture.",
     images: ['targetes.jpg'],
@@ -72,6 +93,7 @@ const PROJECTS = [
     slug: 'Häagen - Dazs',
     title: 'Häagen-Dazs',
     category: 'packaging',
+    hidden: true,
     cover: '1portada.jpg',
     description: "Packaging graphic line including labelling and box design for a perfume production inspired by the Häagen-Dazs brand.",
     images: [
@@ -82,7 +104,7 @@ const PROJECTS = [
   },
   {
     slug: 'Packaging',
-    title: 'Unexpected Packaging',
+    title: "Faustino's",
     category: 'packaging',
     cover: '1portada2.jpg',
     description: "Label and packaging design for an elegant wine. The brand draws on the classic aesthetic of 'Faustino' wine, reinterpreted with a contemporary approach.",
@@ -98,9 +120,18 @@ const PROJECTS = [
     slug: 'Arcadia',
     title: 'Arcadia Magazine',
     category: 'editorial',
-    cover: 'portada.jpg',
+    cover: '01.jpg',
     description: "Editorial design for Arcadia Magazine, a travel publication with a special issue on Tokyo. Bold typography, atmospheric photography, and a dynamic layout that captures the essence of the Japanese capital.",
-    images: ['portada.jpg', 'interior.jpg'],
+    images: numbered(9),
+  },
+  {
+    slug: 'Foodbook',
+    title: 'Foodbook',
+    category: 'editorial',
+    cover: '01.jpg',
+    description: "'Más allá del sabor': recipes and tips for all the senses. A social project: a cookbook designed to make cooking accessible to people with visual impairments, with high-contrast black and white layouts, bold pictograms, Braille, and QR codes linking to a mobile version with audio.",
+    collab: 'Cristóbal Trasierra Ruiz, ONCE',
+    images: numbered(9),
   },
   {
     slug: 'Vaporwave',
@@ -165,6 +196,7 @@ const PROJECTS = [
     slug: 'La Marato',
     title: 'La Marató',
     category: 'tipografia',
+    hidden: true,
     cover: 'cartell.jpg',
     description: "Typographic poster for La Marató de TV3, raising funds against Alzheimer's. A visual poem based on the song 'Birthday Cake' by Dylan Conrique: highlighted letters in blue spell out the hidden message 'I MISS YOU', merging lyrics and emotion in a single design.",
     images: ['cartell.jpg'],
@@ -181,6 +213,7 @@ const PROJECTS = [
     slug: 'Pangrama',
     title: 'Pangram',
     category: 'tipografia',
+    hidden: true,
     cover: '2502841.jpg',
     description: "Study of the characteristics and anatomy of the Baskerville typeface, presented as a pangram displaying every character of the alphabet.",
     images: ['2502841.jpg'],
@@ -205,10 +238,14 @@ const PROJECTS = [
   },
 ]
 
+// Projects with `hidden: true` stay in the data but are not shown on the site
+const PUBLIC_PROJECTS = PROJECTS.filter((p) => !p.hidden)
+
 // ── Project gallery modal ──────────────────────────────────────────────────
 
 function ProjectModal({ project, onClose }) {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [shownIndex, setShownIndex]     = useState(0)
   const thumbsRef   = useRef(null)
   const activeThumb = useRef(null)
   const total       = project.images.length
@@ -236,6 +273,17 @@ function ProjectModal({ project, onClose }) {
     return () => { document.body.style.overflow = '' }
   }, [])
 
+  // The dialog takes the size of the image: keep the previous one until the next has loaded
+  useEffect(() => {
+    let active = true
+    const show = () => { if (active) setShownIndex(currentIndex) }
+    const next = new Image()
+    next.onload = show
+    next.onerror = show
+    next.src = img(project.slug, project.images[currentIndex])
+    return () => { active = false }
+  }, [project, currentIndex])
+
   // Scroll active thumbnail into view
   useEffect(() => {
     activeThumb.current?.scrollIntoView({
@@ -245,6 +293,25 @@ function ProjectModal({ project, onClose }) {
 
   return (
     <div className="pm-backdrop" onClick={onClose}>
+      {total > 1 && (
+        <>
+          <button
+            className="pm-nav pm-nav-prev"
+            onClick={(e) => { e.stopPropagation(); prev() }}
+            aria-label="Previous"
+          >
+            <i className="bi bi-chevron-left" />
+          </button>
+          <button
+            className="pm-nav pm-nav-next"
+            onClick={(e) => { e.stopPropagation(); next() }}
+            aria-label="Next"
+          >
+            <i className="bi bi-chevron-right" />
+          </button>
+        </>
+      )}
+
       <div className="pm-dialog" onClick={(e) => e.stopPropagation()}>
 
         {/* Close */}
@@ -256,21 +323,13 @@ function ProjectModal({ project, onClose }) {
         <div className="pm-gallery">
           <div className="pm-main-img">
             <img
-              key={currentIndex}
-              src={img(project.slug, project.images[currentIndex])}
-              alt={`${project.title} — ${currentIndex + 1}`}
+              key={shownIndex}
+              src={img(project.slug, project.images[shownIndex])}
+              alt={`${project.title} — ${shownIndex + 1}`}
             />
 
             {total > 1 && (
-              <>
-                <button className="pm-nav pm-nav-prev" onClick={prev} aria-label="Previous">
-                  <i className="bi bi-chevron-left" />
-                </button>
-                <button className="pm-nav pm-nav-next" onClick={next} aria-label="Next">
-                  <i className="bi bi-chevron-right" />
-                </button>
-                <span className="pm-counter">{currentIndex + 1} / {total}</span>
-              </>
+              <span className="pm-counter">{currentIndex + 1} / {total}</span>
             )}
           </div>
 
@@ -324,8 +383,8 @@ export default function Portfolio() {
   const [selectedProject, setSelectedProject] = useState(null)
 
   const visible = activeFilter === '*'
-    ? PROJECTS
-    : PROJECTS.filter((p) => p.category === activeFilter)
+    ? PUBLIC_PROJECTS
+    : PUBLIC_PROJECTS.filter((p) => p.category === activeFilter)
 
   return (
     <section id="portfolio" className="portfolio section">
@@ -336,7 +395,7 @@ export default function Portfolio() {
 
       <div className="container">
         <ul className="portfolio-filters" data-aos="fade-up" data-aos-delay="100">
-          {FILTERS.map(({ key, label }) => (
+          {FILTERS.filter((f) => !f.hidden).map(({ key, label }) => (
             <li
               key={key}
               className={activeFilter === key ? 'filter-active' : ''}

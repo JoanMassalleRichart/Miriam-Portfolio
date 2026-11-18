@@ -10,7 +10,8 @@ import About from './components/sections/About'
 import Skills from './components/sections/Skills'
 import Resume from './components/sections/Resume'
 import Portfolio from './components/sections/Portfolio'
-import Services from './components/sections/Services'
+// Hidden for now: uncomment here, below and in Sidebar's NAV_ITEMS to show it again
+// import Services from './components/sections/Services'
 import Footer from './components/Footer'
 import ScrollTop from './components/ScrollTop'
 
@@ -28,7 +29,7 @@ function App() {
         <Skills />
         <Resume />
         <Portfolio />
-        <Services />
+        {/* <Services /> */}
       </main>
       <Footer />
       <ScrollTop />

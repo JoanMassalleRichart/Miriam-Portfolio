@@ -719,20 +719,17 @@ section,
 
 /* Masonry grid via CSS columns */
 .portfolio-grid {
-  columns: 3;
-  column-gap: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
 }
 
-@media (max-width: 991px) {
-  .portfolio-grid { column-count: 2 !important; }
-}
-
-@media (max-width: 575px) {
-  .portfolio-grid { column-count: 1 !important; }
+.portfolio-column {
+  flex: 1;
+  min-width: 0;
 }
 
 .portfolio .portfolio-item {
-  break-inside: avoid;
   margin-bottom: 20px;
   display: inline-block;
   width: 100%;

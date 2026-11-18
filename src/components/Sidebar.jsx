@@ -5,7 +5,7 @@ const NAV_ITEMS = [
   { href: '#about',     icon: 'bi-person',            label: 'About' },
   { href: '#resume',    icon: 'bi-file-earmark-text', label: 'Resume' },
   { href: '#portfolio', icon: 'bi-images',            label: 'Portfolio' },
-  { href: '#services',  icon: 'bi-hdd-stack',         label: 'Services' },
+  // { href: '#services',  icon: 'bi-hdd-stack',         label: 'Services' },
 ]
 
 export default function Sidebar() {

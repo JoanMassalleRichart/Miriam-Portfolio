@@ -47,7 +47,7 @@ export default function Hero() {
 
   useEffect(() => {
     const typed = new Typed(typedRef.current, {
-      strings: ['Graphic Design', 'Branding', 'Packaging'],
+      strings: ['Graphic Design', 'Branding', 'Editorial', 'Advertising', 'Packaging'],
       loop: true,
       typeSpeed: 100,
       backSpeed: 50,

@@ -158,7 +158,7 @@ const PROJECTS = [
     description: "Poster and flyer for the 18th edition of the APHÒNICA voice festival in Banyoles. The staircase shapes represent the moment a voice rises — the visual concept driving the entire festival identity.",
     images: [
       '1PORTADA.jpg', '3279984.jpg',
-      'BOLSAS PAPEL.jpg', 'bolsatelarosa.jpg', 'vasos.jpg', 'vasos2.jpg',
+      'BOLSAS PAPEL.jpg', 'vasos.jpg', 'vasos2.jpg',
     ],
   },
   {
